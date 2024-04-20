@@ -5,6 +5,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/novaflamestar/spade_goth/service"
 	"github.com/novaflamestar/spade_goth/view"
+	"github.com/novaflamestar/spade_goth/view/fragment/users"
+	"github.com/novaflamestar/spade_goth/view/fragment/users/form"
+	"github.com/novaflamestar/spade_goth/view/fragment/users/table"
 )
 
 type UserHandler struct {
@@ -21,31 +24,31 @@ func InitHandler(userService *service.UserService) *UserHandler {
 }
 
 func (handler *UserHandler) BasePage(c echo.Context) error {
-	userTable := view.UserPage()
+	userTable := users.UserPage()
 	index := view.Index(userTable)
 	return handler.View(c, index)
 }
 
 func (handler *UserHandler) ShowUsers(c echo.Context) error {
 	users := handler.UserService.UserStore.GetUsers()
-	table := view.UserList(users)
+	table := table.UserList(users)
 	return handler.View(c, table)
 }
 
 func (handler *UserHandler) AddUserForm(c echo.Context) error {
-	userForm := view.AddUserForm()
+	userForm := form.AddUserForm()
 	return handler.View(c, userForm)
 }
 
 func (handler *UserHandler) SubmitUserForm(c echo.Context) error {
 	name := c.FormValue("name")
 	handler.UserService.UserStore.CreateUser(name)
-	table := view.Table()
+	table := table.Table()
 	return handler.View(c, table)
 }
 
 func (handler *UserHandler) GetUserTable(c echo.Context) error {
-	table := view.Table()
+	table := table.Table()
 	return handler.View(c, table)
 }
 

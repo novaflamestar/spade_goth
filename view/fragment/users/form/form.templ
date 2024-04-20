@@ -1,0 +1,18 @@
+package form
+
+
+templ AddUserForm() {
+	<form hx-post="/fragments/users/form" hx-target="#user-table" hx-swap="outerHTML">
+		<div>
+			<label for="name">Name</label>
+			<input id="name" type="text" name="name" />
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+}
+
+templ AddUserButton() {
+	<button hx-get="/fragments/users/form" hx-swap="outerHTML">
+    Click To add
+    </button>
+}
