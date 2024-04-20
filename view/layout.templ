@@ -1,0 +1,62 @@
+package view
+
+import "github.com/novaflamestar/spade_goth/model"
+
+templ Header() {
+	<head>
+		<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+	</head>
+}
+
+templ Body(content templ.Component) {
+	<body>
+		@content
+	</body>
+}
+
+templ AddUserForm() {
+	<form hx-post="/users/form" hx-target="#user-table" hx-swap="outerHTML">
+		<div>
+			<label for="name">Name</label>
+			<input id="name" type="text" name="name" />
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+}
+
+templ AddUserButton() {
+	<button hx-get="/users/form" hx-swap="outerHTML">
+    Click To add
+    </button>
+}
+
+templ Table() {
+	<div id="user-table">
+		<table>
+			<tr>
+				<th>id</th>
+				<th>name</th>
+			</tr>
+			<tr hx-get="/components/users" hx-swap="outerHTML" hx-trigger="load" id="user-table"></tr>
+		</table>
+	</div>
+}
+
+templ UserList(users []model.User) {
+	for _, user := range users {
+		<tr>
+			<td>{ user.Id }</td>
+			<td>{ user.Name }</td>
+		</tr>
+	}
+}
+
+templ UserPage() {
+	@Table()
+	@AddUserButton()
+}
+
+templ Index(content templ.Component) {
+	@Header()
+	@Body(content)
+}
