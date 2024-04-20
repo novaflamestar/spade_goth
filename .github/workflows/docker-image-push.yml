@@ -87,8 +87,5 @@ jobs:
       name: Build and push
       uses: docker/build-push-action@v5
       with:
-        build-args: |
-          PORT=${{ vars.PORT }}
-          ADDRESS=${{ vars.ADDRESS }}
         push: true
         tags: ${{ env.CURRENT_TAGS }}
