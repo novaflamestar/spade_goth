@@ -4,6 +4,8 @@ docker d: build
 drun:
 	docker run -p 3000:3000 spade_goth
 
+dfull: d drun
+
 templ:
 	templ generate --path ${PWD}/view
 go:
