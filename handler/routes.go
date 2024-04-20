@@ -1,6 +1,19 @@
 package handler
 
-import "github.com/labstack/echo/v4"
+import (
+	"embed"
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+)
+
+func SetupStyles(app *echo.Echo, styleDir embed.FS) {
+	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Root:       "styles",
+		Filesystem: http.FS(styleDir),
+	}))
+}
 
 func SetupRoutes(app *echo.Echo, h *UserHandler) {
 	app.GET("/", h.BasePage)

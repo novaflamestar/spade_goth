@@ -10,7 +10,9 @@ templ:
 	templ generate --path ${PWD}/view
 go:
 	go build -o app .
-build: templ go
+tail:
+	npx tailwindcss -i ./styles/tailwind.css -o ./styles/dist/styles.css
+build: templ go tail
 run:
 	./app
 full: build run
