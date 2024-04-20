@@ -129,7 +129,7 @@ func Table() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"user-table\" hx-get=\"/components/users/table\" hx-swap=\"outerHTML\" hx-trigger=\"every 1s\"><table><tr><th>id</th><th>name</th></tr><tr hx-get=\"/components/users\" hx-swap=\"outerHTML\" hx-trigger=\"load\" id=\"user-table\"></tr></table></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"user-table\"><table><tr><th>id</th><th>name</th></tr><tr hx-get=\"/components/users\" hx-swap=\"outerHTML\" hx-trigger=\"load\" id=\"user-table\"></tr></table></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
