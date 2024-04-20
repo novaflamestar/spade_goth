@@ -61,7 +61,7 @@ jobs:
       id: log-ctx
       run: |
         env
-        echo "current_tags=${{ env.CURRENT_TAGS }}"
+        echo "current_tags=${{ env.CURRENT_TAGS }}" >> $GITHUB_STEP_SUMMARY
 
     - uses: actions/checkout@v3
       with: 
