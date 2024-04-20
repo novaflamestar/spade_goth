@@ -1,0 +1,94 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request_target:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      current_sha: ${{ env.CURRENT_SHA }}
+      current_repo: ${{ env.CURRENT_REPOSITORY }}
+      current_ref: ${{ env.CURRENT_REF }}
+      current_tags: ${{ env.CURRENT_TAGS }}
+    steps:
+    - name: get current context variables
+      id: get-ctx
+      run: |
+        echo "CURRENT_SHA=$(echo ${{ github.sha }} | cut -c1-5)" >> $GITHUB_ENV
+        echo "FULL_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+        echo "CURRENT_REPOSITORY=$(echo ${{ github.repository }} | cut -d '/' -f 2)" >> $GITHUB_ENV
+        echo "CURRENT_REF=$(echo ${{ github.ref_name }} | sed 's|/|_|')" >> $GITHUB_ENV
+
+
+    - name: echo context variables to logs
+      id: log-ctx
+      run: |
+        echo "current_sha=${{ env.CURRENT_SHA }}"
+        echo "full_repository=${{ env.FULL_REPOSITORY }}"
+        echo "current_repo=${{ env.CURRENT_REPOSITORY }}"
+        echo "current_ref=${{ env.CURRENT_REF }}"
+        echo "current_tags=${{ env.CURRENT_TAGS }}"
+    - name: echo context variables to Summary
+      id: summ-ctx
+      run: |
+        echo "current_sha=${{ env.CURRENT_SHA }}" >> $GITHUB_STEP_SUMMARY
+        echo "full_repository=${{ env.FULL_REPOSITORY }}" >> $GITHUB_STEP_SUMMARY
+        echo "current_repo=${{ env.CURRENT_REF }}" >> $GITHUB_STEP_SUMMARY
+        echo "current_ref=${{ env.CURRENT_REF }}" >> $GITHUB_STEP_SUMMARY
+        echo "current_tags=${{ env.CURRENT_TAGS }}" >> $GITHUB_STEP_SUMMARY
+
+  build:
+
+    runs-on: ubuntu-latest
+    needs: [ setup ]
+    steps:
+    - name: get current context variables
+      run: |
+        echo "CURRENT_TAGS=${{ secrets.DOCKERHUB_USERNAME }}/${{ needs.setup.outputs.current_repo }}:${{ needs.setup.outputs.current_sha }},${{ secrets.DOCKERHUB_USERNAME }}/${{ needs.setup.outputs.current_repo }}:${{ needs.setup.outputs.current_ref }}-${{ needs.setup.outputs.current_sha }}" >> $GITHUB_ENV
+
+    - name: add latest tag if branch is main
+      if: ${{ github.ref_name }} == 'main'
+      run: |
+        echo "CURRENT_TAGS=${{ env.CURRENT_TAGS }},${{ secrets.DOCKERHUB_USERNAME }}/${{ needs.setup.outputs.current_repo }}:latest" >> $GITHUB_ENV
+
+    - name: echo context variables to logs
+      id: log-ctx
+      run: |
+        env
+        echo "current_tags=${{ env.CURRENT_TAGS }}"
+
+    - uses: actions/checkout@v3
+      with: 
+        ref: ${{ github.ref }}
+    -
+      name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    -
+      name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    -
+      name: list current folder
+      run: |
+        pwd
+        ls
+    -
+      name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        build-args: |
+          PORT=${{ vars.PORT }}
+          ADDRESS=${{ vars.ADDRESS }}
+        push: true
+        tags: ${{ env.CURRENT_TAGS }}
