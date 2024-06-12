@@ -12,7 +12,7 @@ go:
 	go build -o app .
 tail:
 	npx tailwindcss -i ./styles/tailwind.css -o ./styles/dist/styles.css
-build: templ tail go
+build: templ go
 run:
 	./app
-full: build run
+full: build tail run
