@@ -5,14 +5,18 @@ templ AddUserForm() {
 	<form hx-post="/fragments/users/form" hx-target="#user-table" hx-swap="outerHTML">
 		<div>
 			<label for="name">Name</label>
-			<input id="name" type="text" name="name" />
+			<input id="name" type="text" name="name" class="transition ease-in-out delay-150 shadow-lg hover:outline hover:outline-gray-400"/>
 		</div>
-		<button type="submit">Submit</button>
+		<div class="flex justify-center">
+			<button type="submit">Submit</button>
+		</div>
 	</form>
 }
 
 templ AddUserButton() {
-	<button hx-get="/fragments/users/form" hx-swap="outerHTML">
-    Click To add
-    </button>
+	<div class="flex justify-center">
+		<button hx-get="/fragments/users/form" hx-swap="outerHTML" class=" animate-pulse transition ease-in-out delay-150 hover:scale-150  hover:shadow-lg">
+		Click To add
+		</button>
+	</div>
 }

@@ -3,9 +3,9 @@ package service
 import "github.com/novaflamestar/spade_goth/storage"
 
 type UserService struct {
-	UserStore *storage.Store
+	UserStore storage.UserStore
 }
 
-func InitService(store *storage.Store) *UserService {
+func InitService(store storage.UserStore) *UserService {
 	return &UserService{UserStore: store}
 }

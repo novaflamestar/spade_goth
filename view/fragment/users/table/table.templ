@@ -5,12 +5,14 @@ import "github.com/novaflamestar/spade_goth/model"
 
 templ Table() {
 	<div id="user-table">
-		<table class="flex justify-center items-center table-auto ">
-			<tr>
-				<th>id</th>
-				<th>name</th>
-			</tr>
-			<tr hx-get="/fragments/users" hx-swap="outerHTML" hx-trigger="load" id="user-table"></tr>
+		<table class="flex justify-center items-center table-auto">
+			<tbody class="shadow-lg">
+				<tr>
+					<th>id</th>
+					<th>name</th>
+				</tr>
+				<tr hx-get="/fragments/users" hx-swap="outerHTML" hx-trigger="load" id="user-table"></tr>
+			</tbody>
 		</table>
 		@form.AddUserButton()
 	</div>
@@ -18,7 +20,7 @@ templ Table() {
 
 templ UserList(users []model.User) {
 	for _, user := range users {
-		<tr>
+		<tr class="hover:bg-gray-500">
 			<td>{ user.Id }</td>
 			<td>{ user.Name }</td>
 		</tr>

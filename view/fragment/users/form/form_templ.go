@@ -23,7 +23,7 @@ func AddUserForm() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/fragments/users/form\" hx-target=\"#user-table\" hx-swap=\"outerHTML\"><div><label for=\"name\">Name</label> <input id=\"name\" type=\"text\" name=\"name\"></div><button type=\"submit\">Submit</button></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/fragments/users/form\" hx-target=\"#user-table\" hx-swap=\"outerHTML\"><div><label for=\"name\">Name</label> <input id=\"name\" type=\"text\" name=\"name\" class=\"transition ease-in-out delay-150 shadow-lg hover:outline hover:outline-gray-400\"></div><div class=\"flex justify-center\"><button type=\"submit\">Submit</button></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,7 +47,7 @@ func AddUserButton() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-get=\"/fragments/users/form\" hx-swap=\"outerHTML\">Click To add</button>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-center\"><button hx-get=\"/fragments/users/form\" hx-swap=\"outerHTML\" class=\" animate-pulse transition ease-in-out delay-150 hover:scale-150  hover:shadow-lg\">Click To add</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

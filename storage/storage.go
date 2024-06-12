@@ -7,6 +7,12 @@ import (
 	"github.com/novaflamestar/spade_goth/model"
 )
 
+type UserStore interface {
+	CreateUser(string) error
+	DeleteUser(string) error
+	GetUser(string) (model.User, error)
+	GetUsers() ([]model.User, error)
+}
 type Store struct {
 	Users []model.User
 }
@@ -19,15 +25,12 @@ func InitStore() *Store {
 	return store
 }
 
-func (s *Store) CreateUser(name string) {
+func (s *Store) CreateUser(name string) error {
 	user := model.User{}
 	user.Name = name
 	user.Id = uuid.NewString()
 	s.Users = append(s.Users, user)
-}
-
-func (s *Store) GetUsers() []model.User {
-	return s.Users
+	return nil
 }
 
 func (s *Store) DeleteUser(id string) error {
@@ -41,4 +44,12 @@ func (s *Store) DeleteUser(id string) error {
 		return fmt.Errorf("no user to delete with id: %s", id)
 	}
 	return nil
+}
+
+func (s *Store) GetUser(id string) (model.User, error) {
+	return model.User{}, nil
+}
+
+func (s *Store) GetUsers() ([]model.User, error) {
+	return s.Users, nil
 }

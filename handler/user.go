@@ -30,7 +30,7 @@ func (handler *UserHandler) BasePage(c echo.Context) error {
 }
 
 func (handler *UserHandler) ShowUsers(c echo.Context) error {
-	users := handler.UserService.UserStore.GetUsers()
+	users, _ := handler.UserService.UserStore.GetUsers()
 	table := table.UserList(users)
 	return handler.View(c, table)
 }
