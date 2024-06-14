@@ -5,7 +5,9 @@ drun:
 	docker run -p 3000:3000 spade_goth
 
 dfull: d drun
-
+dev:
+	go install github.com/a-h/templ/cmd/templ@latest
+	npm install -D tailwindcss
 templ:
 	templ generate --path ${PWD}/view
 go:
